@@ -1,68 +1,120 @@
+# Weekly - Web Platform for Ads
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🎯 **Objectif**  
+Weekly is a web platform where users can post, view, and comment on ads. The application will be built using Laravel 11, following best practices for security, scalability, and maintainability.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Features
 
-## About Laravel
+- **User Management**: Secure authentication system (Laravel Breeze, Jetstream, or Laravel UI).
+- **CRUD for Ads**: Full CRUD functionality for managing ads with pagination and soft delete.
+- **Category Management**: Categorization of ads for better organization.
+- **Comments**: Users can comment on each ad.
+- **Development Tools**: Using Artisan commands (php artisan make --all), seeders, factories, and REPL (Tinker) for development and testing.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Technologies and Tools
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Framework**: Laravel (latest stable version)
+- **Database**: MySQL / PostgreSQL
+- **Frontend**: Blade + Tailwind CSS (via Laravel Breeze/Jetstream)
+- **Authentication**: Laravel Breeze / Jetstream / UI
+- **Development Tools**:
+  - `php artisan make:model -mcr` (Models, Migrations, Controllers, Requests)
+  - `php artisan make:seeder` & `php artisan make:factory` (Test data)
+  - `php artisan tinker` (REPL for testing queries)
+  - Eloquent ORM for database interactions
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Project Architecture
 
-## Learning Laravel
+### 1️⃣ User Management (users)
+- **Authentication**: Laravel Breeze / Jetstream for secure user login and registration.
+- **User Profiles**: Manage user information.
+- **Roles and Permissions** (optional): Implement roles like admin and user.
+- **Model**: `User`
+  - `id` (PK)
+  - `name`
+  - `email` (unique)
+  - `password`
+  - `role` (admin, user) (optional)
+  - `timestamps`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Features
+- User registration and login.
+- Profile management.
+- Middleware to restrict access to certain pages.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 2️⃣ Ad Management (annonces)
+- **CRUD with Pagination**: Users can create, view, edit, and delete ads (soft delete).
+- **Relations**: Ads are related to users and categories.
+- **Model**: `Annonce`
+  - `id` (PK)
+  - `title`
+  - `description`
+  - `price` (optional)
+  - `image` (optional)
+  - `user_id` (FK → users)
+  - `category_id` (FK → categories)
+  - `status` (active, draft, archived)
+  - `deleted_at` (Soft Delete)
+  - `timestamps`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Features
+- Create and display ads.
+- Edit and soft delete ads.
+- Pagination for displaying ads.
 
-## Laravel Sponsors
+### 3️⃣ Category Management (categories)
+- **Ad Categorization**: Organize ads into categories.
+- **CRUD for Admin**: Admins can manage categories.
+- **Model**: `Category`
+  - `id` (PK)
+  - `name` (unique)
+  - `slug` (SEO-friendly)
+  - `timestamps`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### Features
+- Display categories.
+- Link ads to categories.
 
-### Premium Partners
+### 4️⃣ Comment Management (commentaires)
+- **Relation to Ads and Users**: Each comment is linked to an ad and a user.
+- **Validation**: Comments are validated before submission.
+- **Model**: `Commentaire`
+  - `id` (PK)
+  - `content`
+  - `user_id` (FK → users)
+  - `ad_id` (FK → ads)
+  - `timestamps`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#### Features
+- Add comments to ads.
+- Delete own comments.
 
-## Contributing
+## Development Tools & Artisan Commands
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Generate Models and Migrations**:  
+   `php artisan make:model -mcr Ad`  
+   `php artisan make:model -mcr Category`  
+   `php artisan make:model -mcr Comment`
 
-## Code of Conduct
+2. **Add Factories and Seeders**:  
+   `php artisan make:seeder AdSeeder`  
+   `php artisan make:factory AdFactory`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. **Use Tinker for Testing**:  
+   `php artisan tinker` (Test queries interactively)
 
-## Security Vulnerabilities
+## Best Practices
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Validation**: Use Form Requests to validate user inputs.
+- **Middleware**: Secure access to resources with middleware.
+- **Soft Delete**: Avoid permanent deletion of ads using soft delete.
+- **Eloquent Relationships**: Leverage Eloquent relationships for clean, efficient queries.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Installation
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/weekly.git
+   cd weekly
