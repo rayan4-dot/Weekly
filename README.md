@@ -116,5 +116,5 @@ Weekly is a web platform where users can post, view, and comment on ads. The app
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/weekly.git
+   git clone https://github.com/rayan4-dot/weekly.git
    cd weekly
