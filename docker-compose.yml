@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: laravel_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  app:
+    image: php:8.2-fpm
+    container_name: laravel-app
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mysql  # Link phpMyAdmin to MySQL container
+      MYSQL_ROOT_PASSWORD: root_password  # Root password to access MySQL
+    ports:
+      - "8080:80"  # Expose phpMyAdmin on port 8080
+    depends_on:
+      - mysql  # Make sure MySQL is ready before starting phpMyAdmin
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
